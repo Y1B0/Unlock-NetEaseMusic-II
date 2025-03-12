@@ -6,9 +6,20 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  get_users:
     runs-on: windows-latest
-
+    outputs:
+      user_list: ${{ steps.set-users.outputs.user_list }}
+    steps:
+      - id: set-users
+        run: echo "user_list=${{ vars.USER_LIST }}" >> $env:GITHUB_OUTPUT
+        shell: pwsh
+        
+  unlock_logic:
+    runs-on: windows-latest
+    strategy: 
+      matrix: 
+        user: ${{ fromJson(needs.get_users.outputs.user_list) }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -42,10 +53,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run unlock script
+      - name: Run unlock script for each user
         env:
           EMAIL: ${{ secrets.EMAIL }}
           PASSWORD: ${{ secrets.PASSWORD }}
           PYTHONIOENCODING: utf-8
           PYTHONLEGACYWINDOWSSTDIO: utf-8
+          USER: ${{ matrix.user }}
+          COOKIE: ${{ secrets[format('SECRET_{0}', matrix.user)] }}
         run: python auto_login.py
