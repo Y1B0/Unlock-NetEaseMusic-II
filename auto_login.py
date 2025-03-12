@@ -51,10 +51,10 @@ def extension_login():
     browser.get('https://music.163.com')
 
     # Inject Cookie to skip login
-    logging.error("Injecting Cookie to skip login")
+    logging.info("Injecting Cookie to skip login")
     user = os.environ.get('USER')
     cookie = os.environ.get('COOKIE')
-    logging.error("COOKIE for user: {user} is: {cookie}")
+    logging.info("COOKIE for user: {user} is: {cookie}")
     browser.add_cookie({"name": "MUSIC_U", "value": cookie})
     browser.refresh()
     time.sleep(5)  # Wait for the page to refresh
