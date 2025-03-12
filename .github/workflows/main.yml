@@ -19,6 +19,7 @@ jobs:
         shell: pwsh
         
   unlock_logic:
+    needs: get_users
     runs-on: windows-latest
     environment: Prod
     strategy: 
