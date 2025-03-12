@@ -8,6 +8,7 @@ on:
 jobs:
   get_users:
     runs-on: windows-latest
+    environment: Prod
     outputs:
       user_list: ${{ steps.set-users.outputs.user_list }}
     steps:
