@@ -12,7 +12,15 @@ jobs:
       user_list: ${{ steps.set-users.outputs.user_list }}
     steps:
       - id: set-users
-        run: echo "user_list=${{ vars.USER_LIST }}" >> $env:GITHUB_OUTPUT
+        run: |
+          $userList = '${{ vars.USER_LIST }}'
+          echo "user_list=$userList" >> $env:GITHUB_OUTPUT
+          echo "User list: $userList"
+          # Parse and print individual users
+          $users = $userList | ConvertFrom-Json
+          foreach ($user in $users) {
+            echo "User: $user"
+          }
         shell: pwsh
         
   unlock_logic:
