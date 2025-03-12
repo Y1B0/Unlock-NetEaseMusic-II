@@ -60,8 +60,6 @@ jobs:
 
       - name: Run unlock script for each user
         env:
-          EMAIL: ${{ secrets.EMAIL }}
-          PASSWORD: ${{ secrets.PASSWORD }}
           PYTHONIOENCODING: utf-8
           PYTHONLEGACYWINDOWSSTDIO: utf-8
           USER: ${{ matrix.user }}
